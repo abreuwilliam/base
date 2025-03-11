@@ -1,0 +1,16 @@
+package completo.projeto.completo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+@SpringBootApplication
+public class ProjetoCompletoApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ProjetoCompletoApplication.class, args);
+
+		
+	}
+
+}
