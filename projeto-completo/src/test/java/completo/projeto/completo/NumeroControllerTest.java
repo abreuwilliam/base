@@ -81,10 +81,13 @@ public class SecurityTestConfig {
 
 
         // Chamando o método a ser testado
-        List<Numeros> numero = numeroController.numeros();
-        assertNotNull(numeros);
-        assertEquals(1, numero.size());
-        assertEquals(3, numero.get(0).getNumeroA());
+        ResponseEntity<List<Numeros>> response = numeroController.numeros();
+    List<Numeros> numerosResponse = response.getBody(); // Extrai o corpo da resposta
+
+// Testando se a lista foi retornada corretamente
+        assertNotNull(numerosResponse); // Verifica se a lista não é nula
+        assertEquals(1, numerosResponse.size()); // Verifica se há apenas um elemento na lista
+        assertEquals(3, numerosResponse.get(0).getNumeroA());
 
        
     }
@@ -94,7 +97,7 @@ public class SecurityTestConfig {
         // Simula comportamento do serviço para evitar exceções
         when(numeroService.soma(anyInt())).thenReturn(15);
 
-       int numero = numeroController.soma(1).getBody();
+       int numero = (int) numeroController.soma(1).getBody();
         assertEquals(15, numero);
     }
 

@@ -3,13 +3,11 @@ package completo.projeto.completo.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import completo.projeto.completo.entities.Numeros;
-import completo.projeto.completo.entities.Usuario;
+import completo.projeto.completo.entities.NumerosDTO;
 import completo.projeto.completo.repository.NumeroRepository;
-import completo.projeto.completo.repository.UsuarioRepository;
 
 @Service
 public class NumeroService {
@@ -22,13 +20,17 @@ public class NumeroService {
     public List<Numeros> findAll() {
         return numeroRepository.findAll();
     }
+    public Numeros findById(int id) {
+        return numeroRepository.findById(id);
+    }
 
     public Numeros findByNumeroA(int numeroA) {
         return numeroRepository.findByNumeroA(numeroA);
     }
 
-    public Numeros findByNumeroB(int numeroB) {
-        return numeroRepository.findByNumeroB(numeroB);
+    public NumerosDTO findByNumeroB(int numeroB) {
+        NumerosDTO numeros = new NumerosDTO(numeroRepository.findByNumeroB(numeroB));
+        return numeros;
     }
     public void salvar(int numeroA, int numeroB) {
         Numeros numeros = new Numeros();

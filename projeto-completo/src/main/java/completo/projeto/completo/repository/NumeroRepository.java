@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import completo.projeto.completo.entities.Numeros;
+import completo.projeto.completo.entities.NumerosDTO;
 
 @Repository
 public interface NumeroRepository extends JpaRepository<Numeros, Integer> {
@@ -17,6 +18,8 @@ public interface NumeroRepository extends JpaRepository<Numeros, Integer> {
      Numeros  findByNumeroB(int numerob);
 
      Numeros  findById(int id);
+
+     
 
    
   
