@@ -18,7 +18,11 @@ import completo.projeto.completo.Exception.RecursoNaoEncontradoException;
 import completo.projeto.completo.Exception.RequisicaoInvalidaException;
 import completo.projeto.completo.Service.NumeroService;
 import completo.projeto.completo.entities.Numeros;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @CrossOrigin(origins = "*") 
 @RequestMapping(value = "/numeros")
@@ -27,9 +31,13 @@ public class NumeroController {
     @Autowired
     private NumeroService numeroService;
 
+    @Operation(description="Consulta todos os números")
+    @ApiResponse(responseCode = "200", description = "Consulta todos os números")
+    @ApiResponse(responseCode = "400", description = "nao existe nenhum número cadastrado") 
     @GetMapping()
     public ResponseEntity<List<Numeros>> numeros() {
         List<Numeros> lista = numeroService.findAll();
+
         return ResponseEntity.ok(lista);
     }
 

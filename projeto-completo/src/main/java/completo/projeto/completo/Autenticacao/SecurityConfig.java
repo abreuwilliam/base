@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -20,20 +21,25 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable()
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/publico/**,/h2-console").permitAll()
-                .requestMatchers("/api/admin/**,/h2-console").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            )
-            .formLogin() // Habilita a tela padrão de login do Spring Security
-            .and()
-            .httpBasic();
-        
-        return http.build();
-    }
+  public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtFilter) throws Exception {
+    http
+        .csrf().disable()
+        .headers().frameOptions().disable() 
+        .and()
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/api/publico/**", "/h2-console/**", "/auth/login").permitAll()
+            .requestMatchers("/api/admin/**").hasRole("ADMIN")
+            .requestMatchers(
+    "/v3/api-docs/**",
+               "/swagger-ui/**",
+                "/swagger-ui.html"
+                    ).permitAll()
+            .anyRequest().authenticated()
+        )
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    
+    return http.build();
+}
 
     @Bean
     public PasswordEncoder passwordEncoder() {
